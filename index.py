@@ -1,15 +1,14 @@
 from matplotlib import pyplot as mpl
+import functions as func
 
-def toValues(func):
-    x = []
-    y = []
-    for i in range(0,100):
-        x.append(i)
-        y.append(eval(func.replace("x", "("+str(i)+")")))
-    return {"x": x, "y": y}
+#fnct = input("Enter function: ")
+fnct = "1/(1+x)"
 
-values = toValues("x**2")
-
+values = func.toValues(fnct)
+sudd = func.intInput()
+extr = func.extrInput()
+print(extr)
+        
 mpl.plot(values["x"],values["y"])
 mpl.show()
 
