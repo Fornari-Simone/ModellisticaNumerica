@@ -20,9 +20,8 @@ def extrInput():
     extr = input("Enter interval: ")
     if re.search("(\d+\:\d+)", extr) != None :
         arr = [int(i) for i in re.findall("(\d+\:\d+)", extr)[0].split(":")]
-        arr.sort()
-        return arr
-    else:
-        print("Wrong input")
-        return extrInput()
-        
+        if arr[0] > -1 or arr[1] > -1 : 
+            arr.sort()
+            return arr
+    print("Wrong input")
+    return extrInput()
