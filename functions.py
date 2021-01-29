@@ -18,10 +18,14 @@ def intInput():
 
 def extrInput():
     extr = input("Enter interval: ")
-    if re.search("(\d+\:\d+)", extr) != None :
-        arr = [int(i) for i in re.findall("(\d+\:\d+)", extr)[0].split(":")]
+    if re.search("(\d+\;\d+)", extr) != None :
+        arr = [int(i) for i in re.findall("(\d+\;\d+)", extr)[0].split(";")]
         if arr[0] > -1 or arr[1] > -1 : 
             arr.sort()
             return arr
     print("Wrong input")
     return extrInput()
+
+def pointSuddivision(sudd, extr):
+    h=(extr[1]-extr[0])/sudd
+    print(h)
