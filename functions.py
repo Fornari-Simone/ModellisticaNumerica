@@ -1,15 +1,12 @@
 from matplotlib import pyplot as mpl
+import numpy as npy
 import re
 
-def toValues(func, st=0, end=100, step=1):
-    try:
-        return {
-            "x":[i for i in range(st, end, 1 if type(step) == float else step)],
-            "y":[eval(func, {"x":i}) for i in range(st, end, 1 if type(step) == float else step)]
-        }
-    except:
-        print("Wrong input")
-        return toValues(input("Enter function: "), st, end, step)
+def toValues(func, st=0, end=100,):
+    return {
+        "x": npy.linspace(st, end, 100),
+        "y": [eval(func, {"x":((end-st)/100)*i}) for i in range(0,100)]
+    }
 
 def intInput():
     try: return int(input("Enter suddivision: "))
