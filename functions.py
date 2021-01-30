@@ -1,3 +1,4 @@
+from matplotlib import pyplot as mpl
 import re
 
 def toValues(func, st=0, end=100, step=1):
@@ -28,4 +29,13 @@ def extrInput():
 
 def pointSuddivision(sudd, extr):
     h=(extr[1]-extr[0])/sudd
-    print(h)
+    return [extr[0]+(h*i) for i in range(sudd+1)]
+
+def extrPntMd(suddv, func):
+    return {
+        "md": [(suddv[i]+suddv[i+1])/2 for i in range(len(suddv)-1)],
+        "y": [eval(func, {"x": i}) for i in range(len(suddv)-1)],
+        "width": suddv[1] - suddv[0]
+    }
+        
+

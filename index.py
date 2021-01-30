@@ -16,9 +16,15 @@ fnct = "1/(1+x)"
 values = func.toValues(fnct)
 sudd = func.intInput()
 extr = func.extrInput()
-func.pointSuddivision(sudd, extr)
+suddv = func.pointSuddivision(sudd, extr)
+forBars = func.extrPntMd(suddv, fnct)
+print(forBars)
 
 mpl.figure(figsize=[10, 8])
+for i in range(len(forBars["md"])): 
+  mpl.bar(forBars["md"][i], forBars["y"][i])
+#print(forBars["md"][0])
+#print(forBars["y"][0])
 mpl.plot(values["x"],values["y"], label=fnct)
 mpl.legend()
 mpl.show()
