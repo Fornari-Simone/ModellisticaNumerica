@@ -8,7 +8,7 @@
 
 from matplotlib.pyplot import figure, bar, plot, legend, show
 from functions import intInput, extrInput, toValues, pointSuddivision, extrPntMd
-from scipy import integrate
+from scipy.integrate import quad
 
 
 #fnct = input("Enter function: ")
@@ -27,6 +27,7 @@ for i in range(len(forBars["md"])):
   res += (forBars["width"] * forBars["y"][i])
 
 print("the result is: " + str(res))
+print(quad(fnct, extr[0], extr[1]))
 plot(values["x"],values["y"], label=fnct)
 legend()
 show()
