@@ -1,12 +1,15 @@
-from matplotlib import pyplot as mpl
-import numpy as npy
+from numpy import linspace as linspace
 import re
 
+# General
 def toValues(func, st=0, end=100,):
     return {
-        "x": npy.linspace(st, end, 100),
-        "y": [eval(func, {"x":((end-st)/100)*i}) for i in range(0,100)]
+        "x": linspace(st, end, 100),
+        "y": [toY(func, st+(((end-st)/100)*i)) for i in range(0,100)]
     }
+
+def toY(func, x):
+    return eval(func, {"x": x})
 
 def intInput():
     try: return int(input("Enter suddivision: "))
@@ -28,11 +31,13 @@ def pointSuddivision(sudd, extr):
     h=(extr[1]-extr[0])/sudd
     return [extr[0]+(h*i) for i in range(sudd+1)]
 
+def calcError():
+    return 0
+
+# Middle Point
 def extrPntMd(suddv, func):
     return {
         "md": [(suddv[i]+suddv[i+1])/2 for i in range(len(suddv)-1)],
-        "y": [eval(func, {"x": i}) for i in range(len(suddv)-1)],
+        "y": [toY(func, (suddv[i]+suddv[i+1])/2) for i in range(len(suddv)-1)],
         "width": suddv[1] - suddv[0]
     }
-        
-
