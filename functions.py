@@ -19,10 +19,10 @@ def intInput():
         return intInput()
 
 def extrInput():
-    extr = input("Enter interval: ")
+    extr = input("Enter interval (a;b): ")
     if re.search("(\d+\;\d+)", extr) != None :
         arr = [int(i) for i in re.findall("(\d+\;\d+)", extr)[0].split(";")]
-        if arr[0] > 0 and arr[1] > 0:
+        if arr[0] > -1 and arr[1] > -1:
             arr.sort()
             return arr
     print("Wrong input")
