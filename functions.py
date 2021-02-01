@@ -37,6 +37,11 @@ def calcError(apr, a, b):
     else: realVal = log(1 + b) - log(1 + a)
     return (abs(realVal - apr)/realVal)*100
 
+def percent(ymin, ymax, yactual):
+    # ymax-ymin : 100 = yactual:x
+    return (yactual*100)/(ymax-ymin)
+
+
 # Middle Point
 def extrPntMd(suddv, func):
     return {
@@ -45,7 +50,10 @@ def extrPntMd(suddv, func):
         "width": suddv[1] - suddv[0]
     }
 
+def sumPntMd(y, width):
+    return sum(width*y[i] for i in range(len(y)))
+
 # trapezoid method
-def extrTrpz(suddv, func):
+def sumTrpz(suddv, func):
     h = (suddv[-1] - suddv[0])/(len(suddv)-1)
     return (h/2)*sum([(eval(func, {"x":suddv[i]})+eval(func, {"x":suddv[i+1]})) for i in range(len(suddv)-1)])
