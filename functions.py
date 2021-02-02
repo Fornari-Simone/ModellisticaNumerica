@@ -45,13 +45,13 @@ def percent(ymin, ymax, yactual):
 # Middle Point
 def extrPntMd(suddv, func):
     return {
-        "md": [(suddv[i]+suddv[i+1])/2 for i in range(len(suddv)-1)],
-        "y": [toY(func, (suddv[i]+suddv[i+1])/2) for i in range(len(suddv)-1)],
+        "md": [(i+suddv[idx+1])/2 for idx, i in enumerate(suddv)],
+        "y": [toY(func, (i+suddv[idx+1])/2) for idx,i in enumerate(suddv)],
         "width": suddv[1] - suddv[0]
     }
 
 def sumPntMd(y, width):
-    return sum(width*y[i] for i in range(len(y)))
+    return sum([width*i for i in y])
 
 # trapezoid method
 def sumTrpz(suddv, func):

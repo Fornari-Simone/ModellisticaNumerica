@@ -23,22 +23,22 @@ rcParams["figure.figsize"]=(10, 8)
 figure(1)
 ylim(0,1)
 title("Middle point Method")
-for i in range(len(forBars["md"])): 
-  axvline(suddv[i]  ,ymax = forBars["y"][i])
-  axvline(suddv[i+1],ymax = forBars["y"][i])
-  plot2["mp"]["x"].append(suddv[i])
-  plot2["mp"]["x"].append(suddv[i+1])
-  for j in range(2): plot2["mp"]["y"].append(forBars["y"][i])
+for idx, i in enumerate(forBars["y"]): 
+  axvline(suddv[idx]  ,ymax = i)
+  axvline(suddv[idx+1],ymax = i)
+  plot2["mp"]["x"].append(suddv[idx])
+  plot2["mp"]["x"].append(suddv[idx+1])
+  for j in range(2): plot2["mp"]["y"].append(i)
 plot(values["x"],values["y"], label=fnct)
 plot(plot2["mp"]["x"], plot2["mp"]["y"])
 
 figure(2)
 ylim(0,1)
 title("Trapezoid Method")
-for i in range(len(suddv)):
-  axvline(suddv[i]  ,ymax = eval(fnct, {"x":suddv[i]}))
-  plot2["tr"]["x"].append(suddv[i])
-  plot2["tr"]["y"].append(eval(fnct, {"x":suddv[i]}))
+for i in suddv:
+  axvline(i  ,ymax = eval(fnct, {"x":i}))
+  plot2["tr"]["x"].append(i)
+  plot2["tr"]["y"].append(eval(fnct, {"x":i}))
 plot(values["x"],values["y"], label=fnct)
 plot(plot2["tr"]["x"], plot2["tr"]["y"])
 
