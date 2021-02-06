@@ -56,4 +56,9 @@ def sumPntMd(y, width):
 # trapezoid method
 def sumTrpz(suddv, func):
     h = (suddv[-1] - suddv[0])/(len(suddv)-1)
-    return (h/2)*sum([(eval(func, {"x":suddv[i]})+eval(func, {"x":suddv[i+1]})) for i in range(len(suddv)-1)])
+    return (h/2)*sum([(toY(func, suddv[i])+toY(func, suddv[i+1])) for i in range(len(suddv)-1)])
+
+# Simpson method
+def sumSimp(suddv, func):
+    hs = (suddv[1]-suddv[0])/3
+    return sum([hs(toY(func, suddv[i])+4(toY(func, suddv[i+1])) + toY(func, suddv[i+2])) for i in range(0, len(suddv)-2, 2)])
