@@ -45,8 +45,8 @@ def percent(ymin, ymax, yactual):
 # Middle Point
 def extrPntMd(suddv, func):
     return {
-        "md": [(i+suddv[idx+1])/2 for idx, i in enumerate(suddv)],
-        "y": [toY(func, (i+suddv[idx+1])/2) for idx,i in enumerate(suddv)],
+        "md": [(suddv[i]+suddv[i+1])/2 for i in range(len(suddv)-1)],
+        "y": [toY(func, (suddv[i]+suddv[i+1])/2) for i in range(len(suddv)-1)],
         "width": suddv[1] - suddv[0]
     }
 
