@@ -1,4 +1,5 @@
-from numpy import linspace as linspace
+from numpy import linspace, mat
+from numpy.linalg import solve 
 from math import log
 import re
 
@@ -61,4 +62,14 @@ def sumTrpz(suddv, func):
 # Simpson method
 def sumSimp(suddv, func):
     hs = (suddv[1]-suddv[0])/3
-    return sum([hs(toY(func, suddv[i])+4(toY(func, suddv[i+1])) + toY(func, suddv[i+2])) for i in range(0, len(suddv)-2, 2)])
+    return sum([hs*(toY(func, suddv[i]) + (4*(toY(func, suddv[i+1]))) + toY(func, suddv[i+2])) for i in range(0, len(suddv)-2, 2)])
+
+def calcFunc(func, a, b):
+    # A(ax)^2 + B(ax) + C = ay
+    # A(bx)^2 + B(bx) + C = by
+    # A{[(a+b)/2]x}^2 + B{[(a+b)/2]x} + C = [(a+b)/2]y
+
+    x = mat(f"{a**2} {a} 1; {b**2} {b} 1; {((a+b)/2)**2} {(a+b)/2} 1")
+    y = mat(f"{toY(func, a)}; {toY(func, b)}; {toY(func, (a+b)/2)}")
+    sis = solve(x, y)
+    return f"{sis[0][0]}(x**2)+{sis[1][0]}(x)+{sis[2][0]}"

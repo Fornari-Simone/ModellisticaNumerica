@@ -1,5 +1,7 @@
 from matplotlib.pyplot import figure, bar, plot, legend, show, axvline, ylim, rcParams, title
-from functions import intInput, extrInput, toValues, pointSuddivision, calcError, extrPntMd, sumTrpz, sumPntMd, percent
+from functions import intInput, extrInput, toValues, pointSuddivision 
+from functions import calcError, extrPntMd, sumTrpz, sumPntMd, percent
+from functions import sumSimp, calcFunc
 
 
 #fnct = input("Enter function: ")
@@ -42,11 +44,21 @@ for i in suddv:
 plot(values["x"],values["y"], label=fnct)
 plot(plot2["tr"]["x"], plot2["tr"]["y"])
 
+figure(3)
+ylim(0,1)
+title("Cavalieri-Simpson method")
+fnctSimp = calcFunc(fnct, extr[0], extr[1])
+valueSimp = toValues(fnctSimp, st=extr[0], end=extr[1])
+plot(valueSimp["x"],valueSimp["y"], label=fnct)
+
 res = sumPntMd(forBars["y"],forBars["width"])
 resTrpz = sumTrpz(suddv, fnct)
-print("Middle point method: " + str(res))
-print("Trapezoid method: " + str(resTrpz))
-print("Middle point method error: " + str(calcError(res, extr[0], extr[1])) + "%")
-print("Trapezoid method error: " + str(calcError(resTrpz, extr[0], extr[1]))+ "%")
+resSimp = sumSimp(suddv, fnct)
+print(f"Middle point method: {str(res)}")
+print(f"Trapezoid method: {str(resTrpz)}")
+print(f"Cavalieri-Simpson method: {str(resSimp)}")
+print(f"Middle point method error: {str(calcError(res, extr[0], extr[1]))} %")
+print(f"Trapezoid method error: {str(calcError(resTrpz, extr[0], extr[1]))} %")
+print(f"Cavalieri-Simpson method error: {str(calcError(resSimp, extr[0], extr[1]))} %")
 legend()
 show()
