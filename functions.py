@@ -71,5 +71,5 @@ def calcFunc(func, a, b):
 
     x = mat(f"{a**2} {a} 1; {b**2} {b} 1; {((a+b)/2)**2} {(a+b)/2} 1")
     y = mat(f"{toY(func, a)}; {toY(func, b)}; {toY(func, (a+b)/2)}")
-    sis = solve(x, y)
-    return f"{sis[0][0]}(x**2)+{sis[1][0]}(x)+{sis[2][0]}"
+    sis = solve(x, y).tolist()
+    return f"({sis[0][0]})*(x**2)+({sis[1][0]})*(x)+({sis[2][0]})"

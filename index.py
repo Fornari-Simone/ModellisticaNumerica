@@ -1,7 +1,7 @@
 from matplotlib.pyplot import figure, bar, plot, legend, show, axvline, ylim, rcParams, title
 from functions import intInput, extrInput, toValues, pointSuddivision 
 from functions import calcError, extrPntMd, sumTrpz, sumPntMd, percent
-from functions import sumSimp, calcFunc
+from functions import sumSimp, calcFunc, toY
 
 
 #fnct = input("Enter function: ")
@@ -38,9 +38,9 @@ figure(2)
 ylim(0,1)
 title("Trapezoid Method")
 for i in suddv:
-  axvline(i  ,ymax = eval(fnct, {"x":i}))
+  axvline(i  ,ymax = toY(func, i))
   plot2["tr"]["x"].append(i)
-  plot2["tr"]["y"].append(eval(fnct, {"x":i}))
+  plot2["tr"]["y"].append(toY(func, i))
 plot(values["x"],values["y"], label=fnct)
 plot(plot2["tr"]["x"], plot2["tr"]["y"])
 
@@ -49,7 +49,13 @@ ylim(0,1)
 title("Cavalieri-Simpson method")
 fnctSimp = calcFunc(fnct, extr[0], extr[1])
 valueSimp = toValues(fnctSimp, st=extr[0], end=extr[1])
+plot(values["x"],values["y"], label=fnct)
 plot(valueSimp["x"],valueSimp["y"], label=fnct)
+# for i in suddv:
+#   axvline(i  ,ymax = toY(func, i))
+#   plot2["tr"]["x"].append(i)
+#   plot2["tr"]["y"].append(toY(func, i))
+
 
 res = sumPntMd(forBars["y"],forBars["width"])
 resTrpz = sumTrpz(suddv, fnct)
