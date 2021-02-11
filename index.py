@@ -1,7 +1,8 @@
-from matplotlib.pyplot import figure, bar, plot, legend, show, axvline, ylim, rcParams, title
-from functions import intInput, extrInput, toValues, pointSuddivision 
-from functions import calcError, extrPntMd, sumTrpz, sumPntMd, percent
-from functions import sumSimp, calcFunc, toY
+from matplotlib.pyplot import legend, show
+from functions import intInput, extrInput, toValues, pointSuddivision, calcError, toY
+from functions import extrPntMd, sumPntMd, plotMd
+from functions import sumTrpz, plotTrpz
+from functions import sumSimp, calcFunc, plotSimp
 
 
 #fnct = input("Enter function: ")
@@ -11,51 +12,12 @@ prmt = "ln(1+x)"
 
 sudd = intInput()
 extr = extrInput()
-values = toValues(fnct, st=extr[0], end=extr[1])
 suddv = pointSuddivision(sudd, extr)
 forBars = extrPntMd(suddv, fnct)
 
-plot2 = {
-  "mp": {"x":[], "y":[]},
-  "tr": {"x":[], "y":[]}
-}
-
-rcParams["figure.figsize"]=(10, 8)
-
-figure(1)
-ylim(0,1)
-title("Middle point Method")
-for idx, i in enumerate(forBars["y"]): 
-  axvline(suddv[idx]  ,ymax = i)
-  axvline(suddv[idx+1],ymax = i)
-  plot2["mp"]["x"].append(suddv[idx])
-  plot2["mp"]["x"].append(suddv[idx+1])
-  for j in range(2): plot2["mp"]["y"].append(i)
-plot(values["x"],values["y"], label=fnct)
-plot(plot2["mp"]["x"], plot2["mp"]["y"])
-
-figure(2)
-ylim(0,1)
-title("Trapezoid Method")
-for i in suddv:
-  axvline(i  ,ymax = toY(func, i))
-  plot2["tr"]["x"].append(i)
-  plot2["tr"]["y"].append(toY(func, i))
-plot(values["x"],values["y"], label=fnct)
-plot(plot2["tr"]["x"], plot2["tr"]["y"])
-
-figure(3)
-ylim(0,1)
-title("Cavalieri-Simpson method")
-fnctSimp = calcFunc(fnct, extr[0], extr[1])
-valueSimp = toValues(fnctSimp, st=extr[0], end=extr[1])
-plot(values["x"],values["y"], label=fnct)
-plot(valueSimp["x"],valueSimp["y"], label=fnct)
-# for i in suddv:
-#   axvline(i  ,ymax = toY(func, i))
-#   plot2["tr"]["x"].append(i)
-#   plot2["tr"]["y"].append(toY(func, i))
-
+plotMd(1, suddv, forBars["y"], fnct, extr)
+plotTrpz(2, suddv, fnct, extr)
+plotSimp(3, suddv, fnct, extr)
 
 res = sumPntMd(forBars["y"],forBars["width"])
 resTrpz = sumTrpz(suddv, fnct)

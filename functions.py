@@ -1,6 +1,7 @@
 from numpy import linspace, mat
 from numpy.linalg import solve 
 from math import log
+from matplotlib.pyplot import figure, plot, axvline, ylim, title
 import re
 
 # General
@@ -38,10 +39,9 @@ def calcError(apr, a, b):
     else: realVal = log(1 + b) - log(1 + a)
     return (abs(realVal - apr)/realVal)*100
 
-def percent(ymin, ymax, yactual):
-    # ymax-ymin : 100 = yactual:x
-    return (yactual*100)/(ymax-ymin)
-
+def basePlot(func, extr):
+    values = toValues(func, extr[0], extr[1])
+    plot(values["x"],values["y"], label=func)
 
 # Middle Point
 def extrPntMd(suddv, func):
@@ -54,10 +54,38 @@ def extrPntMd(suddv, func):
 def sumPntMd(y, width):
     return sum([width*i for i in y])
 
+def plotMd(nfig, suddv, forBarsY, func, extr):
+    plt = {"x": [], "y": []}
+    figure(nfig)
+    figure.figsize = (8,6)
+    ylim(0,1)
+    title("Middle point Method")
+    for idx, i in enumerate(forBarsY): 
+        axvline(suddv[idx]  ,ymax = i)
+        axvline(suddv[idx+1],ymax = i)
+        plt["x"].append(suddv[idx])
+        plt["x"].append(suddv[idx+1])
+        for j in range(2): plt["y"].append(i)
+    basePlot(func, extr)
+    plot(plt["x"], plt["y"])
+
 # trapezoid method
 def sumTrpz(suddv, func):
     h = (suddv[-1] - suddv[0])/(len(suddv)-1)
     return (h/2)*sum([(toY(func, suddv[i])+toY(func, suddv[i+1])) for i in range(len(suddv)-1)])
+
+def plotTrpz(nfig, suddv, func, extr):
+    plt = {"x": [], "y":[]}
+    figure(nfig)
+    figure.figsize = (8,6)
+    ylim(0,1)
+    title("Trapezoid Method")
+    for i in suddv:
+        axvline(i  ,ymax = toY(func, i))
+        plt["x"].append(i)
+        plt["y"].append(toY(func, i))
+    basePlot(func, extr)
+    plot(plt["x"], plt["y"])
 
 # Simpson method
 def sumSimp(suddv, func):
@@ -65,11 +93,18 @@ def sumSimp(suddv, func):
     return sum([hs*(toY(func, suddv[i]) + (4*(toY(func, suddv[i+1]))) + toY(func, suddv[i+2])) for i in range(0, len(suddv)-2, 2)])
 
 def calcFunc(func, a, b):
-    # A(ax)^2 + B(ax) + C = ay
-    # A(bx)^2 + B(bx) + C = by
-    # A{[(a+b)/2]x}^2 + B{[(a+b)/2]x} + C = [(a+b)/2]y
-
     x = mat(f"{a**2} {a} 1; {b**2} {b} 1; {((a+b)/2)**2} {(a+b)/2} 1")
     y = mat(f"{toY(func, a)}; {toY(func, b)}; {toY(func, (a+b)/2)}")
     sis = solve(x, y).tolist()
     return f"({sis[0][0]})*(x**2)+({sis[1][0]})*(x)+({sis[2][0]})"
+
+def plotSimp(nfig, suddv, func, extr):
+    figure(nfig)
+    figure.figsize = (8,6)
+    ylim(0,1)
+    title("Cavalieri-Simpson method")
+    fnctSimp = calcFunc(func, extr[0], extr[1])
+    valueSimp = toValues(fnctSimp, st=extr[0], end=extr[1])
+    basePlot(func, extr)
+    plot(valueSimp["x"],valueSimp["y"])
+    for i in suddv: axvline(i  ,ymax = toY(fnctSimp, i))
